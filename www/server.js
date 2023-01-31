@@ -40,15 +40,15 @@ const util_1 = require("./util/util");
         //Get image input from query
         const { image_url } = req.query;
         if (!image_url)
-            return res.send({ error: "Image url is required" });
+            return res.status(400).send({ error: "Image url is required" });
         try {
             const filtered_image = yield util_1.filterImageFromURL(image_url);
-            return res.sendFile(filtered_image, () => {
+            return res.status(200).sendFile(filtered_image, () => {
                 util_1.deleteLocalFiles([filtered_image]);
             });
         }
         catch (err) {
-            return res.send({ error: "Error filtering image" });
+            return res.status(422).send({ error: "Error filtering image" });
         }
     }));
     //! END @TODO1
